@@ -32,6 +32,9 @@ async function getById(bugId) {
 
 async function remove(bugId) {
   const idx = bugs.findIndex((bug) => bug._id === bugId);
+  if (idx === -1) {
+    throw new Error(`Bug with ID ${bugId} not found`);
+  }
   bugs.splice(idx, 1);
 
   try {
