@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import { bugService } from "./services/bug.service.js";
 import { loggerService } from "./services/logger.service.js";
+import { bugService } from "./api/bugs/bug.service.js";
 
 const app = express();
 const port = 3030;
@@ -50,6 +50,7 @@ app.post("/api/bug", async (req, res) => {
     title = "empty title",
     description = "empty description",
     severity,
+    labels,
   } = req.body;
 
   const bugToSave = {
@@ -57,6 +58,7 @@ app.post("/api/bug", async (req, res) => {
     title,
     description,
     severity: +severity,
+    labels,
     createdAt: Date.now(),
   };
 

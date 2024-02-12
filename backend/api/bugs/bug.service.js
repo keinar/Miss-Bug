@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import { loggerService } from "./logger.service.js";
+import { loggerService } from "../../services/logger.service.js";
 
 export const bugService = {
   query,
