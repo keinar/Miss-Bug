@@ -1,54 +1,101 @@
 [
   {
-    "_id": "HnxDe2",
-    "title": "bug updated",
-    "description": "this is description",
+    "_id": "b02",
+    "title": "Cannot delete a Car",
+    "severity": 2,
+    "description": "description of the bug",
+    "createdAt": 1542107359454,
+    "labels": ["critical", "need-CR", "dev-branch"]
+  },
+  {
+    "_id": "b04",
+    "title": "Cannot remove a Car",
     "severity": 1,
-    "createdAt": 1708000610771
+    "description": "description of the bug"
   },
   {
-    "title": "test keinar 123",
-    "description": "this is description",
+    "_id": "ezCqbl",
+    "title": "Add car twice",
     "severity": 3,
-    "createdAt": 1708015294261,
-    "_id": "3Zpk4u"
+    "description": "description of the bug",
+    "createdAt": 1542107359454,
+    "labels": ["critical", "need-CR", "dev-branch"]
   },
   {
-    "title": "title",
-    "description": "123",
+    "_id": "G6y03e",
+    "title": "title 2",
+    "severity": 3,
+    "createdAt": 1542107359454,
+    "labels": ["critical", "need-CR", "dev-branch"]
+  },
+  {
+    "_id": "zIg0ho",
+    "title": "bug title",
+    "severity": 2,
+    "createdAt": 1542107359454,
+    "labels": ["critical", "need-CR", "dev-branch"]
+  },
+  {
+    "title": "new title",
     "severity": 1,
-    "createdAt": 1708015366819,
-    "_id": "XrZu8l"
+    "description": "new description",
+    "_id": "rMCaN"
   },
   {
-    "title": "test",
-    "description": "test",
-    "severity": 3,
-    "createdAt": 1708018141410,
-    "_id": "1k72m8"
+    "title": "new title",
+    "severity": 1,
+    "description": "new description",
+    "_id": "gyB3v",
+    "createdAt": 1707764564937
   },
   {
-    "_id": "SbcCt",
-    "title": "new bug 1:09",
-    "severity": 4,
-    "description": "this is description"
+    "title": "new title 3",
+    "severity": 1,
+    "description": "new description",
+    "_id": "BKUwD",
+    "createdAt": 1707767206780
   },
   {
-    "title": "new bug ohhh",
+    "title": "new title 3",
+    "severity": 1,
+    "description": "new description",
+    "_id": "WJjqm",
+    "createdAt": 1707767208452
+  },
+  {
+    "title": "new title 3",
+    "severity": 1,
+    "description": "new description",
+    "_id": "2g2j4",
+    "createdAt": 1707767226301
+  },
+  {
+    "title": "new title 3",
+    "severity": 1,
+    "description": "new description",
+    "_id": "7BHCy",
+    "createdAt": 1707767237983
+  },
+  {
+    "title": "new title 3",
+    "severity": 1,
+    "description": "new description",
+    "labels": ["critical", "need-CR", "dev-branch"],
+    "_id": "oa5Oi",
+    "createdAt": 1707767332271
+  },
+  {
+    "title": "new title 3",
+    "severity": 1,
+    "description": "new description",
+    "labels": ["critical", "need-CR", "dev-branch"],
+    "_id": "DgNlL",
+    "createdAt": 1707767360704
+  },
+  {
+    "_id": "QFkRd",
+    "title": "new title 3",
     "severity": 6,
-    "description": "this is description",
-    "_id": "fevdB",
-    "createdAt": 1708040093546
-  },
-  {
-    "_id": "sIdHA",
-    "title": "new bug ohhh",
-    "severity": 6,
-    "description": "this is description"
-  },
-  {
-    "_id": "Rj54D",
-    "severity": null,
-    "createdAt": 1708040444206
+    "description": "new description"
   }
 ]
