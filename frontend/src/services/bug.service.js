@@ -11,10 +11,12 @@ export const bugService = {
   getById,
   save,
   remove,
+  getDefaultFilter,
 };
 
-async function query() {
-  const { data: bugs } = await axios.get(BASE_URL);
+async function query(filterBy = {}) {
+  console.log("filter: ", filterBy);
+  const { data: bugs } = await axios.get(BASE_URL, { params: filterBy })
   return bugs;
 }
 
@@ -34,4 +36,8 @@ async function save(bug) {
   const method = bug._id ? "put" : "post";
   const { data: savedBug } = await axios[method](BASE_URL, bug);
   return savedBug;
+}
+
+function getDefaultFilter() {
+  return { txt: "", severity: "", pageIdx: undefined }
 }
