@@ -1,13 +1,5 @@
 [
   {
-    "_id": "b02",
-    "title": "Cannot delete a Car",
-    "severity": 2,
-    "description": "description of the bug",
-    "createdAt": 1542107359454,
-    "labels": ["critical", "need-CR", "dev-branch"]
-  },
-  {
     "_id": "b04",
     "title": "Cannot remove a Car",
     "severity": 1,
@@ -19,21 +11,33 @@
     "severity": 3,
     "description": "description of the bug",
     "createdAt": 1542107359454,
-    "labels": ["critical", "need-CR", "dev-branch"]
+    "labels": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ]
   },
   {
     "_id": "G6y03e",
     "title": "title 2",
     "severity": 3,
     "createdAt": 1542107359454,
-    "labels": ["critical", "need-CR", "dev-branch"]
+    "labels": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ]
   },
   {
     "_id": "zIg0ho",
     "title": "bug title",
     "severity": 2,
     "createdAt": 1542107359454,
-    "labels": ["critical", "need-CR", "dev-branch"]
+    "labels": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ]
   },
   {
     "title": "new title",
@@ -80,7 +84,11 @@
     "title": "new title 3",
     "severity": 1,
     "description": "new description",
-    "labels": ["critical", "need-CR", "dev-branch"],
+    "labels": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ],
     "_id": "oa5Oi",
     "createdAt": 1707767332271
   },
@@ -88,7 +96,11 @@
     "title": "new title 3",
     "severity": 1,
     "description": "new description",
-    "labels": ["critical", "need-CR", "dev-branch"],
+    "labels": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ],
     "_id": "DgNlL",
     "createdAt": 1707767360704
   },
@@ -97,5 +109,29 @@
     "title": "new title 3",
     "severity": 6,
     "description": "new description"
+  },
+  {
+    "title": "keinar new",
+    "severity": 2,
+    "description": "new keinar",
+    "_id": "vk40V",
+    "createdAt": 1708041400376
+  },
+  {
+    "title": "pag bug",
+    "severity": 3,
+    "description": "pagination does not work",
+    "_id": "iybfu",
+    "createdAt": 1708198682831
+  },
+  {
+    "title": "title1",
+    "severity": 3,
+    "description": "desc1",
+    "labels": [
+      "keinar"
+    ],
+    "_id": "A5wF7",
+    "createdAt": 1708202243244
   }
 ]

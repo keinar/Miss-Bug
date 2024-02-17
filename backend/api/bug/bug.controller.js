@@ -9,11 +9,11 @@ export async function getBugs(req, res) {
             txt: req.query.txt || '',
             severity: +req.query.severity || 0,
             labels: req.query.labels || undefined,
-            pageIdx: req.query.pageIdx || undefined
+            pageIdx: req.query.pageIdx || 0
         }
         const sortBy = {
             sortField: req.query.sortBy || '',
-            sortDir: +req.query.sortDir || ''
+            sortDir: +req.query.sortDir || 0
         }
         const bugs = await bugService.query(filterBy, sortBy)
         res.send(bugs)

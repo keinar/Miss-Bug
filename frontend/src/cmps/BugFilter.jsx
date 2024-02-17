@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react"
 
-export default function BugFilter({ filterBy, onSetFilterBy }) {
+export default function BugFilter({ bugs, filterBy, onSetFilterBy }) {
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  const [uniqueLabels, setUniqueLabels] = useState([])
 
   useEffect(() => {
-    console.log("filterByToEdit: ", filterByToEdit)
     onSetFilterBy(filterByToEdit)
   }, [filterByToEdit])
+
+  useEffect(() => {
+    const labels = bugs
+      .map(bug => bug.labels) // Map to labels
+      .filter(Boolean) // Remove undefined
+      .flat() // Flatten the array
+      .filter((value, index, self) => self.indexOf(value) === index) // Deduplicate
+    setUniqueLabels(labels)
+  }, [bugs])
 
   function handleChange({ target }) {
     let { name: field, value } = target
@@ -36,6 +45,18 @@ export default function BugFilter({ filterBy, onSetFilterBy }) {
 
         <label htmlFor="severity">Severity: </label>
         <input value={severity} onChange={handleChange} type="number" placeholder="By Severity" id="severity" name="severity" />
+
+        <label htmlFor="labels" className="labels">
+          Labels:
+        </label>
+        <select id="labels" name="labels" onChange={handleChange}>
+          <option value="">All Labels</option>
+          {uniqueLabels.map(label => (
+            <option key={label} value={label}>
+              {label}
+            </option>
+          ))}
+        </select>
       </form>
     </section>
   )

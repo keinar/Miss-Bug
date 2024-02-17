@@ -12,11 +12,13 @@ export const bugService = {
   save,
   remove,
   getDefaultFilter,
+  getDefaultSort,
+  getInitialSortValues
 };
 
-async function query(filterBy = {}) {
-  console.log("filter: ", filterBy);
-  const { data: bugs } = await axios.get(BASE_URL, { params: filterBy })
+async function query(filterBy = {}, sortObj = {}) {
+  const params = { ...filterBy, ...sortObj };
+  const { data: bugs } = await axios.get(BASE_URL, { params })
   return bugs;
 }
 
@@ -39,5 +41,20 @@ async function save(bug) {
 }
 
 function getDefaultFilter() {
-  return { txt: "", severity: "", pageIdx: undefined }
+  return { txt: "", severity: "", pageIdx: 0 }
+}
+
+function getDefaultSort() {
+  return {
+    sortBy: 'createdAt',
+    isAscending: false
+  }
+}
+
+function getInitialSortValues() {
+  return {
+    createdAt: { key: 'createdAt', isAscending: true },
+    severity: { key: 'severity', isAscending: true },
+    title: { key: 'title', isAscending: false },
+  }
 }

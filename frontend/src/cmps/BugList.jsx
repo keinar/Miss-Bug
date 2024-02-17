@@ -1,11 +1,10 @@
+import { Link } from "react-router-dom"
+import { BugPreview } from "./BugPreview"
 
-import { Link } from 'react-router-dom'
-import { BugPreview } from './BugPreview'
-
-export function BugList({ bugs, onRemoveBug, onEditBug }) {
+export function BugList({ bugsToDisplay, onRemoveBug, onEditBug }) {
   return (
     <ul className="bug-list">
-      {bugs.map((bug) => (
+      {bugsToDisplay.map(bug => (
         <li className="bug-preview" key={bug._id}>
           <BugPreview bug={bug} />
           <div>

@@ -7,6 +7,7 @@ export function BugPreview({ bug }) {
       <p>
         Severity: <span>{bug.severity}</span>
       </p>
+      {bug.labels ? bug.labels.map((label, index) => <span key={index}>{"#" + label + " "}</span>) : ""}
     </article>
-  );
+  )
 }

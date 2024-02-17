@@ -11,7 +11,7 @@ export const bugService = {
 }
 
 var bugs = utilService.readJsonFile('./data/bug.json')
-const PAGE_SIZE = 4
+const PAGE_SIZE = 6
 
 async function query(filterBy = {}, sortBy = {}) {
   try {
