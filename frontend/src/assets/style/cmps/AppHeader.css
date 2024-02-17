@@ -1,6 +1,7 @@
 .app-header {
-  background-color: var(--clr1);
-  color: var(--clr2bg-light);
+  background-color: white;
+  color: black;
+  box-shadow: 0 0 5px #0000005c;
 }
 
 .header-container {
@@ -20,7 +21,7 @@
 }
 
 a.active {
-  color: rgb(241, 212, 241);
+  color: rgb(44, 0, 98);
   font-weight: 600;
   text-decoration: underline;
 }

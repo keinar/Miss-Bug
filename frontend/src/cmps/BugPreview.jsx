@@ -1,6 +1,7 @@
 export function BugPreview({ bug }) {
   return (
     <article>
+      <p>{new Date(bug.createdAt).toLocaleString()}</p>
       <h4>{bug.title}</h4>
       <p>{bug.description}</p>
       <h1>🐛</h1>

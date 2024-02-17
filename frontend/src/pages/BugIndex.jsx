@@ -5,12 +5,14 @@ import { useRef, useState } from "react"
 import { useEffect } from "react"
 import BugFilter from "../cmps/BugFilter.jsx"
 import { SortingButton } from "../cmps/SortingButton.jsx"
+import { BugForm } from "../cmps/BugForm.jsx"
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [bugsToDisplay, setBugsToDisplay] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
   const [sortObj, setSortObj] = useState(bugService.getDefaultSort())
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const sortInitialValues = useRef(bugService.getInitialSortValues())
 
@@ -20,7 +22,7 @@ export function BugIndex() {
 
   useEffect(() => {
     loadBugs()
-  }, [])
+  }, [bugs])
 
   // load bugs without filtering
   async function loadBugs() {
@@ -46,20 +48,13 @@ export function BugIndex() {
     }
   }
 
-  async function onAddBug() {
-    const bug = {
-      title: prompt("Bug title?"),
-      description: prompt("Bug description?"),
-      labels: prompt("Bug labels?")
-        ?.split(",")
-        ?.map(label => label.trim()),
-      severity: +prompt("Bug severity?"),
-    }
+  async function onAddBug(bug) {
     try {
       const savedBug = await bugService.save(bug)
       console.log("Added Bug", savedBug)
       setBugsToDisplay(prevBugs => [...prevBugs, savedBug])
       showSuccessMsg("Bug added")
+      setIsDialogOpen(false)
     } catch (err) {
       console.log("Error from onAddBug ->", err)
       showErrorMsg("Cannot add bug")
@@ -89,7 +84,15 @@ export function BugIndex() {
 
   function onSetSortObj(key, isAscending) {
     const sortDir = isAscending ? 1 : -1 // Ascending = 1, Descending = -1
-    setSortObj({ sortField: key, sortDir })
+    setSortObj({ sortBy: key, sortDir })
+  }
+
+  function onOpenDialog() {
+    setIsDialogOpen(true)
+  }
+
+  const onCloseDialog = () => {
+    setIsDialogOpen(false)
   }
 
   const { title: titleInitialValue, severity: severityInitialValue, createdAt: createdAtInitialValue } = sortInitialValues.current
@@ -105,7 +108,13 @@ export function BugIndex() {
           <SortingButton caption="Title" sortInitialValue={titleInitialValue} onSort={onSetSortObj} />
         </div>
         <BugFilter bugs={bugs} filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-        <button onClick={onAddBug}>Add Bug 🐞</button>
+        <button onClick={onOpenDialog}>Add Bug 🐞</button>
+        {isDialogOpen && (
+          <dialog open={isDialogOpen} className="dialog">
+            <BugForm onAddBug={onAddBug} />
+            <button onClick={onCloseDialog}>Close</button>
+          </dialog>
+        )}
         <BugList bugsToDisplay={bugsToDisplay} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </section>
       <section className="pagination">
