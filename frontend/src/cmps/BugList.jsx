@@ -1,7 +1,35 @@
 import { Link } from "react-router-dom"
 import { BugPreview } from "./BugPreview"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
+import { bugService } from "../services/bug.service"
 
-export function BugList({ bugsToDisplay, onRemoveBug, onEditBug }) {
+export function BugList({ bugsToDisplay, setBugsToDisplay }) {
+  async function onRemoveBug(bugId) {
+    try {
+      await bugService.remove(bugId)
+      console.log("Deleted Succesfully!")
+      setBugsToDisplay(prevBugs => prevBugs.filter(bug => bug._id !== bugId))
+      showSuccessMsg("Bug removed")
+    } catch (err) {
+      console.log("Error from onRemoveBug ->", err)
+      showErrorMsg("Cannot remove bug")
+    }
+  }
+
+  async function onEditBug(bug) {
+    const severity = +prompt("New severity?")
+    const bugToSave = { ...bug, severity }
+    try {
+      const savedBug = await bugService.save(bugToSave)
+      console.log("Updated Bug:", savedBug)
+      setBugsToDisplay(prevBugs => prevBugs.map(currBug => (currBug._id === savedBug._id ? savedBug : currBug)))
+      showSuccessMsg("Bug updated")
+    } catch (err) {
+      console.log("Error from onEditBug ->", err)
+      showErrorMsg("Cannot update bug")
+    }
+  }
+
   return (
     <ul className="bug-list">
       {bugsToDisplay.map(bug => (

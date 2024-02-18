@@ -1,11 +1,26 @@
 import React, { useState } from "react"
+import { bugService } from "../services/bug.service"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 
-export function BugForm({ onAddBug }) {
+export function BugForm({ setBugsToDisplay, setIsDialogOpen }) {
   // State to hold form inputs
   const [bugTitle, setBugTitle] = useState("")
   const [bugDescription, setBugDescription] = useState("")
   const [bugLabels, setBugLabels] = useState("")
   const [bugSeverity, setBugSeverity] = useState("")
+
+  async function onAddBug(bug) {
+    try {
+      const savedBug = await bugService.save(bug)
+      console.log("Added Bug", savedBug)
+      setBugsToDisplay(prevBugs => [...prevBugs, savedBug])
+      showSuccessMsg("Bug added")
+      setIsDialogOpen(false)
+    } catch (err) {
+      console.log("Error from onAddBug ->", err)
+      showErrorMsg("Cannot add bug")
+    }
+  }
 
   // Handler for form submission
   const handleSubmit = async event => {
