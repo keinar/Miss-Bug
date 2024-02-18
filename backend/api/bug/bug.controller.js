@@ -49,7 +49,7 @@ export async function removeBug(req, res) {
 
     try {
         await bugService.remove(bugId)
-        res.send(bugId)
+        res.send(`Successfully removed bug with id : ${bugId}`)
     } catch (err) {
         res.status(400).send(`Couldn't remove bug`)
     }
@@ -72,8 +72,8 @@ export async function addBug(req, res) {
 
 // Update
 export async function updateBug(req, res) {
-    const { _id, title, severity, description } = req.body
-    const bugToSave = { _id, title, severity: +severity, description }
+    const { _id, title, severity, description, labels } = req.body
+    const bugToSave = { _id, title, severity: +severity, description, labels }
     console.log("bugToSave: ", bugToSave)
 
     try {

@@ -1,16 +1,16 @@
 [
   {
-    "title": "new title 3",
-    "severity": 1,
-    "description": "new description",
     "_id": "BKUwD",
+    "title": "new title 3",
+    "severity": 2,
+    "description": "new description",
     "createdAt": 1707767206780
   },
   {
+    "_id": "WJjqm",
     "title": "new title 3",
     "severity": 1,
     "description": "new description",
-    "_id": "WJjqm",
     "createdAt": 1707767208452
   },
   {
@@ -52,20 +52,20 @@
     "createdAt": 1708041400376
   },
   {
-    "title": "pag bug",
-    "severity": 3,
-    "description": "pagination does not work",
     "_id": "iybfu",
+    "title": "pag bug",
+    "severity": 2,
+    "description": "pagination does not work",
     "createdAt": 1708198682831
   },
   {
+    "_id": "lWmpa",
     "title": "title",
-    "severity": 1,
+    "severity": 2,
     "description": "desc",
     "labels": [
       "label"
     ],
-    "_id": "lWmpa",
-    "createdAt": 1708210256923
+    "createdAt": 1708286413562
   }
 ]

@@ -18,10 +18,13 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
 
   async function onEditBug(bug) {
     const severity = +prompt("New severity?")
+    if (typeof severity !== "number" || !severity || severity < 1 || severity > 5) {
+      return alert(`Invalid severity: ${severity}, please set a number between 1 and 5`)
+    }
     const bugToSave = { ...bug, severity }
     try {
       const savedBug = await bugService.save(bugToSave)
-      console.log("Updated Bug:", savedBug)
+
       setBugsToDisplay(prevBugs => prevBugs.map(currBug => (currBug._id === savedBug._id ? savedBug : currBug)))
       showSuccessMsg("Bug updated")
     } catch (err) {

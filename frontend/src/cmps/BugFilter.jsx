@@ -19,19 +19,6 @@ export default function BugFilter({ bugs, filterBy, onSetFilterBy }) {
 
   function handleChange({ target }) {
     let { name: field, value } = target
-
-    switch (target.type) {
-      case "number":
-      case "range":
-        value = +value || ""
-        break
-
-      case "checkbox":
-        value = target.checked
-        break
-      default:
-        break
-    }
     setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
   }
 

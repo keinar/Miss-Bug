@@ -67,7 +67,6 @@ async function remove(bugId) {
     loggerService.error(err)
     throw err
   }
-  return `Bug ${bugId} removed`;
 }
 
 async function save(bugToSave) {
@@ -75,10 +74,14 @@ async function save(bugToSave) {
     if (bugToSave._id) {
       var idx = bugs.findIndex(bug => bug._id === bugToSave._id)
       if (idx === -1) throw `Couldn't find bug with _id ${bugToSave._id}`
+
+      const originalBug = bugs[idx];
+      bugToSave.createdAt = originalBug.createdAt;
+
       bugs.splice(idx, 1, bugToSave)
     } else {
-      bugToSave._id = utilService.makeId()
-      bugToSave["createdAt"] = Date.now()
+      bugToSave._id = utilService.makeId();
+      bugToSave.createdAt = Date.now();
       bugs.push(bugToSave)
     }
     await _saveBugsToFile('./data/bug.json')

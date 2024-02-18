@@ -4,7 +4,7 @@ import { BugList } from "../cmps/BugList.jsx"
 import { useState } from "react"
 import { useEffect } from "react"
 import BugFilter from "../cmps/BugFilter.jsx"
-import { BugForm } from "../cmps/BugForm.jsx"
+import { AddBugForm } from "../cmps/AddBugForm.jsx"
 import BugSorting from "../cmps/BugSorting.jsx"
 import Pagination from "../assets/style/cmps/Pagination.jsx"
 
@@ -21,7 +21,7 @@ export function BugIndex() {
 
   useEffect(() => {
     loadBugs()
-  }, [bugs])
+  }, [])
 
   // load bugs without filtering
   async function loadBugs() {
@@ -56,7 +56,7 @@ export function BugIndex() {
         <button onClick={onOpenDialog}>Add Bug 🐞</button>
         {isDialogOpen && (
           <dialog open={isDialogOpen} className="dialog">
-            <BugForm setBugsToDisplay={setBugsToDisplay} setIsDialogOpen={setIsDialogOpen} />
+            <AddBugForm setBugsToDisplay={setBugsToDisplay} setIsDialogOpen={setIsDialogOpen} />
             <button onClick={onCloseDialog}>Close</button>
           </dialog>
         )}

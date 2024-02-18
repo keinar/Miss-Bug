@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { bugService } from "../services/bug.service"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 
-export function BugForm({ setBugsToDisplay, setIsDialogOpen }) {
+export function AddBugForm({ setBugsToDisplay, setIsDialogOpen }) {
   // State to hold form inputs
   const [bugTitle, setBugTitle] = useState("")
   const [bugDescription, setBugDescription] = useState("")

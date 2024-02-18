@@ -1,28 +1,30 @@
-import { useState } from "react";
-import { showErrorMsg } from "../services/event-bus.service.js";
-import { useParams } from "react-router";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { bugService } from "../services/bug.service.js";
+import { useState } from "react"
+import { showErrorMsg } from "../services/event-bus.service.js"
+import { useNavigate, useParams } from "react-router"
+import { useEffect } from "react"
+import { Link } from "react-router-dom"
+import { bugService } from "../services/bug.service.js"
 
 export function BugDetails() {
-  const [bug, setBug] = useState(null);
-  const { bugId } = useParams();
+  const [bug, setBug] = useState(null)
+  const { bugId } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    loadBug();
-  }, []);
+    loadBug()
+  }, [])
 
   async function loadBug() {
     try {
-      const bug = await bugService.getById(bugId);
-      setBug(bug);
+      const bug = await bugService.getById(bugId)
+      setBug(bug)
     } catch (err) {
-      showErrorMsg("Cannot load bug");
+      showErrorMsg(err.response.data)
+      navigate("/bug")
     }
   }
 
-  if (!bug) return <h1>loadings....</h1>;
+  if (!bug) return <h1>loadings....</h1>
   return (
     <div className="bug-details main-layout">
       <h3>Bug Details 🐛</h3>
@@ -32,5 +34,5 @@ export function BugDetails() {
       </p>
       <Link to="/bug">Back to List</Link>
     </div>
-  );
+  )
 }

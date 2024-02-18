@@ -19,8 +19,10 @@ app.use(express.json());
 
 // Routes
 import { bugRoutes } from "./api/bug/bug.routes.js";
+import { userRoutes } from "./api/users/user.routes.js";
 
 app.use('/api/bug', bugRoutes)
+app.use('/api/user', userRoutes)
 
 app.get('/**', (req, res) => {
   res.sendFile(path.resolve('public/index.html'))
