@@ -18,12 +18,25 @@
 .app-nav {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 a.active {
   color: rgb(44, 0, 98);
   font-weight: 600;
   text-decoration: underline;
+}
+
+dialog.auth-dialog {
+  position: fixed;
+  top: 30%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: white;
+  z-index: 100;
 }
 
 @media (max-width: 720px) {
