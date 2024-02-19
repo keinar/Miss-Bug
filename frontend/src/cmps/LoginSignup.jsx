@@ -65,23 +65,7 @@ export function LoginSignup({ onSignup, onLogin }) {
               </option>
             ))}
           </select>
-          {/* <input
-                        type="text"
-                        name="username"
-                        value={username}
-                        placeholder="Username"
-                        onChange={handleChange}
-                        required
-                        autoFocus
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        placeholder="Password"
-                        onChange={handleChange}
-                        required
-                    /> */}
+
           <button>Login!</button>
         </form>
       )}
@@ -90,7 +74,7 @@ export function LoginSignup({ onSignup, onLogin }) {
           <form className="signup-form" onSubmit={onSubmitForm}>
             <input type="text" name="fullname" value={credentials.fullname} placeholder="Fullname" onChange={handleChange} required />
             <input type="text" name="username" value={credentials.username} placeholder="Username" onChange={handleChange} required />
-            <input type="password" name="password" value={credentials.password} placeholder="Password" onChange={handleChange} required />
+            <input type="password" name="password" value={credentials.password} placeholder="Password" onChange={handleChange} autoComplete="off" required />
             <ImgUploader onUploaded={onUploaded} />
             <button>Signup!</button>
           </form>

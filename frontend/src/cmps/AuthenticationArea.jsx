@@ -2,9 +2,7 @@ import React, { useState } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { LoginSignup } from "./LoginSignUp"
 
-export default function AuthenticationArea() {
-  const [loggedinUser, setLoggedinUser] = useState(userService.getLoggedinUser())
-
+export default function AuthenticationArea({ loggedinUser, setLoggedinUser }) {
   async function onLogin(credentials) {
     try {
       const user = await userService.login(credentials)
@@ -28,18 +26,9 @@ export default function AuthenticationArea() {
     // add signup
   }
 
-  return (
-    <section className="login-signup-container">
-      {!loggedinUser && <LoginSignup onLogin={onLogin} onSignup={onSignup} />}
+  function isAllowed() {
+    return loggedinUser?.isAdmin
+  }
 
-      {loggedinUser && (
-        <div className="user-preview">
-          <h3>
-            Hello {loggedinUser.fullname}
-            <button onClick={onLogout}>Logout</button>
-          </h3>
-        </div>
-      )}
-    </section>
-  )
+  return <section className="login-signup-container">{!loggedinUser && <LoginSignup onLogin={onLogin} onSignup={onSignup} />}</section>
 }

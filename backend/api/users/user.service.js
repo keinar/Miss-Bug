@@ -1,75 +1,77 @@
 import fs from 'fs'
-
+import { utilService } from '../../services/util.service.js'
 import { loggerService } from '../../services/logger.service.js'
-import { utilService } from './../../services/util.service.js';
+
+
+const users = utilService.readJsonFile('data/user.json')
 
 export const userService = {
     query,
     getById,
     remove,
     save,
+    getByUsername
 }
 
-var users = utilService.readJsonFile('./data/user.json')
-const PAGE_SIZE = 4
+
 
 async function query() {
-    try {
-        let usersToReturn = [...users]
-        return usersToReturn
-    } catch (err) {
-        loggerService.error(err)
-        throw err
-    }
+    return users
 }
 
 async function getById(userId) {
     try {
-        var user = users.find(user => user._id === userId)
-        if (!user) throw `Couldn't find user with _id ${userId}`
+        const user = users.find(user => user._id === userId)
+        if (!user) throw `User not found by userId : ${userId}`
         return user
     } catch (err) {
-        loggerService.error(err)
-        throw (err)
+        loggerService.error('userService[getById] : ', err)
+        throw err
     }
+}
+
+async function getByUsername(username) {
+    const user = users.find(user => user.username === username)
+    return user
 }
 
 async function remove(userId) {
     try {
         const idx = users.findIndex(user => user._id === userId)
-        if (idx === -1) throw `Couldn't find user with _id ${userId}`
+        if (idx === -1) throw `Couldn't find user with _id ${causerIdrId}`
+
         users.splice(idx, 1)
-
-        _saveUsersToFile('./data/user.json')
+        await _saveUsersToFile()
     } catch (err) {
-        loggerService.error(err)
+        loggerService.error('userService[remove] : ', err)
         throw err
     }
 }
 
-async function save(userToSave) {
+async function save(user) {
     try {
-        if (userToSave._id) {
-            var idx = users.findIndex(user => user._id === userToSave._id)
-            if (idx === -1) throw `Couldn't find user with _id ${userToSave._id}`
-            users.splice(idx, 1, userToSave)
-        } else {
-            userToSave._id = utilService.makeId()
-            users.push(userToSave)
-        }
-        await _saveUsersToFile('./data/user.json')
-        return userToSave
+        // Only handles user ADD for now
+        user._id = utilService.makeId()
+        user.score = 10000
+        user.createdAt = Date.now()
+        if (!user.imgUrl) user.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+        users.push(user)
+        await _saveUsersToFile()
+        return user
     } catch (err) {
-        loggerService.error(err)
+        loggerService.error('userService[save] : ', err)
         throw err
     }
 }
 
-function _saveUsersToFile(path) {
+function _saveUsersToFile() {
     return new Promise((resolve, reject) => {
-        const data = JSON.stringify(users, null, 2)
-        fs.writeFile(path, data, (err) => {
-            if (err) return reject(err)
+
+        const usersStr = JSON.stringify(users, null, 2)
+        fs.writeFile('data/user.json', usersStr, (err) => {
+            if (err) {
+                return console.log(err);
+            }
             resolve()
         })
     })
