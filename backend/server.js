@@ -27,12 +27,12 @@ app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
 
 app.get('/**', (req, res) => {
-  res.sendFile(path.resolve('public/index.html'))
+  res.sendFile(path.resolve('public'))
 })
 
 import { loggerService } from "./services/logger.service.js";
 
-const port = 3030;
+const port = process.env.PORT || 3030;
 app.listen(port, () => {
   console.log(`Server ready at port ${port}`)
   loggerService.info("Up and running on port", port);
