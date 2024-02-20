@@ -2,8 +2,10 @@ import { Link } from "react-router-dom"
 import { BugPreview } from "./BugPreview"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { bugService } from "../services/bug.service"
+import { userService } from "../services/user.service"
 
 export function BugList({ bugsToDisplay, setBugsToDisplay }) {
+  const loggedinUser = userService.getLoggedinUser()
   async function onRemoveBug(bugId) {
     try {
       await bugService.remove(bugId)
@@ -11,9 +13,13 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
       setBugsToDisplay(prevBugs => prevBugs.filter(bug => bug._id !== bugId))
       showSuccessMsg("Bug removed")
     } catch (err) {
-      console.log("Error from onRemoveBug ->", err)
+      // console.log("Error from onRemoveBug ->", err)
       showErrorMsg("Cannot remove bug")
     }
+  }
+
+  function isAllowed(bug) {
+    return bug.owner?._id === loggedinUser?._id || loggedinUser?.isAdmin
   }
 
   async function onEditBug(bug) {
@@ -28,7 +34,7 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
       setBugsToDisplay(prevBugs => prevBugs.map(currBug => (currBug._id === savedBug._id ? savedBug : currBug)))
       showSuccessMsg("Bug updated")
     } catch (err) {
-      console.log("Error from onEditBug ->", err)
+      // console.log("Error from onEditBug ->", err)
       showErrorMsg("Cannot update bug")
     }
   }
@@ -39,20 +45,24 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
         <li className="bug-preview" key={bug._id}>
           <BugPreview bug={bug} />
           <div>
-            <button
-              onClick={() => {
-                onRemoveBug(bug._id)
-              }}
-            >
-              x
-            </button>
-            <button
-              onClick={() => {
-                onEditBug(bug)
-              }}
-            >
-              Edit
-            </button>
+            {isAllowed(bug) && (
+              <button
+                onClick={() => {
+                  onRemoveBug(bug._id)
+                }}
+              >
+                x
+              </button>
+            )}
+            {isAllowed(bug) && (
+              <button
+                onClick={() => {
+                  onEditBug(bug)
+                }}
+              >
+                Edit
+              </button>
+            )}
           </div>
           <Link to={`/bug/${bug._id}`}>Details</Link>
         </li>

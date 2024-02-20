@@ -56,31 +56,35 @@ async function getById(bugId) {
   }
 }
 
-async function remove(bugId) {
+async function remove(bugId, loggedInUser) {
   try {
     const idx = bugs.findIndex(bug => bug._id === bugId)
     if (idx === -1) throw `Couldn't find bug with _id ${bugId}`
-    bugs.splice(idx, 1)
+    const bug = bugs[idx]
+    if (!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw { msg: 'You are not the owner of this bug', code: 403 }
 
-    _saveBugsToFile('./data/bug.json')
+    bugs.splice(idx, 1)
+    await _saveBugsToFile('./data/bug.json')
   } catch (err) {
     loggerService.error(err)
     throw err
   }
 }
 
-async function save(bugToSave) {
+async function save(bugToSave, loggedInUser) {
   try {
     if (bugToSave._id) {
-      var idx = bugs.findIndex(bug => bug._id === bugToSave._id)
+      const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
       if (idx === -1) throw `Couldn't find bug with _id ${bugToSave._id}`
 
-      const originalBug = bugs[idx];
-      bugToSave.createdAt = originalBug.createdAt;
+      const bug = bugs[idx];
+      bugToSave.createdAt = bug.createdAt;
+      if (!loggedInUser?.isAdmin && bug.owner._id !== loggedInUser?._id) throw { msg: 'You are not the owner of this bug', code: 403 }
 
-      bugs.splice(idx, 1, bugToSave)
+      bugs.splice(idx, 1, { ...bug, ...bugToSave })
     } else {
       bugToSave._id = utilService.makeId();
+      bugToSave.owner = { _id: loggedInUser._id, fullname: loggedInUser.fullname }
       bugToSave.createdAt = Date.now();
       bugs.push(bugToSave)
     }

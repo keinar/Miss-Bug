@@ -1,6 +1,7 @@
 // Bug CRUDL API
 import { bugService } from './bug.service.js';
 import { loggerService } from '../../services/logger.service.js';
+import { authService } from '../auth/auth.service.js';
 
 // List
 export async function getBugs(req, res) {
@@ -46,9 +47,11 @@ export async function getBug(req, res) {
 // Delete
 export async function removeBug(req, res) {
     const { bugId } = req.params
+    const loggedinUser = authService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Unauthorized')
 
     try {
-        await bugService.remove(bugId)
+        await bugService.remove(bugId, loggedinUser)
         res.send(`Successfully removed bug with id : ${bugId}`)
     } catch (err) {
         res.status(400).send(`Couldn't remove bug`)
@@ -61,9 +64,11 @@ export async function addBug(req, res) {
     const { title, severity, description, labels } = req.body
     // Better use createBug()
     const bugToSave = { title, severity: +severity, description, labels }
+    const loggedinUser = authService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Unauthorized')
 
     try {
-        const savedBug = await bugService.save(bugToSave)
+        const savedBug = await bugService.save(bugToSave, loggedinUser)
         res.send(savedBug)
     } catch (err) {
         res.status(400).send(`Couldn't save bug`)
@@ -74,10 +79,11 @@ export async function addBug(req, res) {
 export async function updateBug(req, res) {
     const { _id, title, severity, description, labels } = req.body
     const bugToSave = { _id, title, severity: +severity, description, labels }
-    console.log("bugToSave: ", bugToSave)
+    const loggedinUser = authService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Unauthorized')
 
     try {
-        const savedBug = await bugService.save(bugToSave)
+        const savedBug = await bugService.save(bugToSave, loggedinUser)
         res.send(savedBug)
     } catch (err) {
         res.status(400).send(`Couldn't save bug`)
