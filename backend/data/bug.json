@@ -64,28 +64,78 @@
     "createdAt": 1708377959235
   },
   {
-    "title": "keinar bug",
-    "severity": 3,
-    "description": "bug is basa",
-    "labels": [
-      "123"
-    ],
-    "_id": "tEBZj",
+    "title": "new bug ohhh",
+    "severity": 6,
+    "description": "this is description",
+    "_id": "unvXV",
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
     },
-    "createdAt": 1708425939129
+    "createdAt": 1708635483608
   },
   {
     "title": "new bug ohhh",
-    "severity": 4,
+    "severity": 6,
     "description": "this is description",
-    "_id": "kbBJn",
+    "_id": "znaB2",
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
     },
-    "createdAt": 1708598945698
+    "createdAt": 1708636357476
+  },
+  {
+    "title": "dfgfd",
+    "severity": 3,
+    "description": "fdgdf",
+    "labels": [
+      "dfg"
+    ],
+    "_id": "3BmWE",
+    "owner": {
+      "_id": "u102",
+      "fullname": "Master Adminov"
+    },
+    "createdAt": 1708636375414
+  },
+  {
+    "title": "asd",
+    "severity": 3,
+    "description": "asd",
+    "labels": [
+      "asd"
+    ],
+    "_id": "3n35U",
+    "owner": {
+      "_id": "vJM1k",
+      "fullname": "Keinar Elkayam"
+    },
+    "createdAt": 1708636664378
+  },
+  {
+    "title": "new bug ohhh",
+    "severity": 6,
+    "description": "this is description",
+    "_id": "DGXCL",
+    "owner": {
+      "_id": "vJM1k",
+      "fullname": "Keinar Elkayam"
+    },
+    "createdAt": 1708636933657
+  },
+  {
+    "title": "asd",
+    "severity": 3,
+    "description": "asd",
+    "labels": [
+      "asd"
+    ],
+    "_id": "XTmy5",
+    "owner": {
+      "_id": "vJM1k",
+      "fullname": "Keinar Elkayam"
+    },
+    "createdAt": 1708637954179
   }
 ]

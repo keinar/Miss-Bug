@@ -6,11 +6,13 @@ import { requireCreator } from './bug.middleware.js'
 const router = express.Router()
 
 
-router.get('/', getBugs)
-router.get('/:bugId', getBug)
-router.delete('/:bugId', requireCreator, removeBug)
-router.post('/', requireUser, requireCreator, addBug)
-router.put('/', requireUser, requireCreator, updateBug)
+router.get('/', getBugs) // list
+router.get('/:bugId', getBug) // get
+router.post('/', requireUser, addBug)   // add
+router.put('/', requireUser, requireCreator, updateBug) // update
+router.delete('/:bugId', requireUser, requireCreator, removeBug) // delete
+
+
 
 
 
