@@ -28,7 +28,7 @@ function UserDetailsRouteGuard({ children }) {
   const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
 
   function isLoggedin() {
-    return !loggedinUser
+    return !!loggedinUser
   }
 
   if (!isLoggedin()) {

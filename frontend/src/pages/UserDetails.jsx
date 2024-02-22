@@ -38,14 +38,13 @@ export function UserDetails() {
   if (!user) return <h1>loadings....</h1>
 
   return (
-    <div className="user-details main-layout">
-      <h3>User Details</h3>
+    <main className="user-details main-layout">
+      <h2>My Profile</h2>
       <section className="user-profile">
-        <p>
-          <img src={user.imgUrl} />
-        </p>
+        <img src={user.imgUrl} alt="user" width={200} />
+
         <article>
-          <h4>{user.fullname}</h4>
+          <h3>{user.fullname}</h3>
           <p>
             Usename: <span>{user.username}</span>
           </p>
@@ -54,16 +53,16 @@ export function UserDetails() {
               Score: <span>{user.score}</span>
             </p>
           )}
-          <Link to="/user">Back to List</Link>
+          {user.isAdmin && <Link to="/user">Back to List</Link>}
         </article>
       </section>
 
       <h3>User's Bugs</h3>
       <section className="user-bugs">
         {!bugs && <div>Loading...</div>}
-        {bugs && bugs.list.length === 0 && <div>No bugs reported</div>}
-        {bugs && bugs.list.length > 0 && <BugList bugs={bugs.list} />}
+        {bugs && bugs.length === 0 && <div>No bugs reported</div>}
+        {bugs && bugs.length > 0 && <BugList bugs={bugs} />}
       </section>
-    </div>
+    </main>
   )
 }

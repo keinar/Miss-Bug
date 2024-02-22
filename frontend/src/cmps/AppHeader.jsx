@@ -35,7 +35,6 @@ export function AppHeader() {
 
   const isAdmin = loggedinUser?.isAdmin
   const isLoggedin = loggedinUser !== null && loggedinUser !== undefined
-
   return (
     <header className="app-header">
       <div className="header-container">
