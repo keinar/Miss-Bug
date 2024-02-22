@@ -2,13 +2,16 @@ import { useEffect, useState } from "react"
 import { UserMsg } from "./UserMsg"
 import { NavLink } from "react-router-dom"
 import AuthenticationArea from "./AuthenticationArea"
+import { userService } from "../services/user.service"
+import { loadUsers, logout, setLoggedinUser } from "../store/actions/user.actions"
+import { useSelector } from "react-redux"
 
 export function AppHeader() {
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false)
-  const [loggedinUser, setLoggedinUser] = useState(userService.getLoggedinUser())
+  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
 
   useEffect(() => {
-    // component did mount when dependancy array is empty
+    loadUsers()
   }, [])
 
   function openAuthDialog() {
@@ -22,7 +25,7 @@ export function AppHeader() {
   async function onLogout() {
     console.log("logout")
     try {
-      await userService.logout()
+      logout()
       setLoggedinUser(null)
     } catch (err) {
       console.log("can not logout")
@@ -30,14 +33,27 @@ export function AppHeader() {
     // add logout
   }
 
+  const isAdmin = loggedinUser?.isAdmin
+  const isLoggedin = loggedinUser !== null && loggedinUser !== undefined
   return (
     <header className="app-header">
       <div className="header-container">
         <UserMsg />
         <nav className="app-nav">
-          <NavLink to="/">Home</NavLink> |<NavLink to="/bug">Bugs</NavLink> |<NavLink to="/user">Users</NavLink> |<NavLink to="/about">About</NavLink>
+          <NavLink to="/">Home</NavLink> |<NavLink to="/bug">Bugs</NavLink> |
+          {isAdmin && (
+            <>
+              <NavLink to="/user"> Users </NavLink> |
+            </>
+          )}
+          {isLoggedin && (
+            <>
+              <NavLink to={`/user/${loggedinUser._id}`}>My Profile</NavLink>|{" "}
+            </>
+          )}
+          <NavLink to="/about">About</NavLink>
           {!loggedinUser && <button onClick={openAuthDialog}>Log In</button>}
-          {isAuthDialogOpen && (
+          {isAuthDialogOpen && !loggedinUser && (
             <dialog open={isAuthDialogOpen} className="auth-dialog">
               <AuthenticationArea loggedinUser={loggedinUser} setLoggedinUser={setLoggedinUser} />
               <button onClick={closeAuthDialog}>Close</button>

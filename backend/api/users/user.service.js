@@ -2,7 +2,7 @@ import fs from 'fs'
 import { utilService } from '../../services/util.service.js'
 import { loggerService } from '../../services/logger.service.js'
 
-
+const TAG = "user.service"
 const users = utilService.readJsonFile('data/user.json')
 
 export const userService = {
@@ -16,7 +16,13 @@ export const userService = {
 
 
 async function query() {
-    return users
+
+    try {
+        return users
+    } catch (err) {
+        loggerService.error(TAG, `Had problems getting users`, err)
+        throw `Had problems getting users`
+    }
 }
 
 async function getById(userId) {
