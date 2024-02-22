@@ -20,6 +20,7 @@ export const bugService = {
 async function query(filterBy = {}, sortObj = {}) {
   const params = { ...filterBy, ...sortObj };
   const { data: bugs } = await axios.get(BASE_URL, { params })
+
   return bugs;
 }
 

@@ -1,14 +1,5 @@
 [
   {
-    "_id": "u101",
-    "fullname": "Puki Norma",
-    "username": "puki",
-    "password": "123",
-    "isAdmin": false,
-    "score": 10000,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
-  },
-  {
     "_id": "u102",
     "fullname": "Master Adminov",
     "username": "admin",

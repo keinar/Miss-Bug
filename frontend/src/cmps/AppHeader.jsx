@@ -2,13 +2,16 @@ import { useEffect, useState } from "react"
 import { UserMsg } from "./UserMsg"
 import { NavLink } from "react-router-dom"
 import AuthenticationArea from "./AuthenticationArea"
+import { userService } from "../services/user.service"
+import { loadUsers, logout, setLoggedinUser } from "../store/actions/user.actions"
+import { useSelector } from "react-redux"
 
 export function AppHeader() {
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false)
-  const [loggedinUser, setLoggedinUser] = useState(userService.getLoggedinUser())
+  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
 
   useEffect(() => {
-    // component did mount when dependancy array is empty
+    loadUsers()
   }, [])
 
   function openAuthDialog() {
@@ -22,7 +25,7 @@ export function AppHeader() {
   async function onLogout() {
     console.log("logout")
     try {
-      await userService.logout()
+      logout()
       setLoggedinUser(null)
     } catch (err) {
       console.log("can not logout")

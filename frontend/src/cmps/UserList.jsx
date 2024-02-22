@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom'
-import { UserPreview } from './UserPreview'
+import { Link } from "react-router-dom"
+import { UserPreview } from "./UserPreview"
+import { useSelector } from "react-redux"
 
-export function UserList({ users, onRemoveUser, onEditUser }) {
+export function UserList({ onRemoveUser, onEditUser }) {
+  const users = useSelector(storeState => storeState.userModule.users)
   return (
     <ul className="bug-list">
-      {users.map((user) => (
+      {users.map(user => (
         <li className="bug-preview" key={user._id}>
           <UserPreview user={user} />
           <div>

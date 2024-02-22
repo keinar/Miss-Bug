@@ -65,7 +65,7 @@
   },
   {
     "title": "keinar bug",
-    "severity": 1,
+    "severity": 3,
     "description": "bug is basa",
     "labels": [
       "123"
@@ -76,5 +76,16 @@
       "fullname": "Keinar Elkayam"
     },
     "createdAt": 1708425939129
+  },
+  {
+    "title": "new bug ohhh",
+    "severity": 4,
+    "description": "this is description",
+    "_id": "kbBJn",
+    "owner": {
+      "_id": "vJM1k",
+      "fullname": "Keinar Elkayam"
+    },
+    "createdAt": 1708598945698
   }
 ]

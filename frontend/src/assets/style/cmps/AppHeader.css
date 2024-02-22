@@ -43,4 +43,9 @@ dialog.auth-dialog {
   .app-header {
     color: var(--clr2bg-light);
   }
+
+  .header-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }

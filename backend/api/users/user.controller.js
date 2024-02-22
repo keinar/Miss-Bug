@@ -28,7 +28,7 @@ export async function removeUser(req, res) {
     const { userId } = req.params
 
     try {
-        await userService.remove(userId)
+        await userService.remove(userId, req.loggedinUser)
         res.send(`Successfully removed user with id : ${userId}`)
     } catch (err) {
         res.status(400).send(`Couldn't remove user`)
@@ -38,12 +38,13 @@ export async function removeUser(req, res) {
 
 // Save
 export async function addUser(req, res) {
+    console.log("loggedinUser: ", req.loggedinUser)
     const { username, score, fullname, password } = req.body
     // Better use createUser()
     const userToSave = { username, score: +score, fullname, password }
 
     try {
-        const savedUser = await userService.save(userToSave)
+        const savedUser = await userService.save(userToSave, req.loggedinUser)
         res.send(savedUser)
     } catch (err) {
         res.status(400).send(`Couldn't save user`)
@@ -57,7 +58,7 @@ export async function updateUser(req, res) {
     console.log("userToSave: ", userToSave)
 
     try {
-        const savedUser = await userService.save(userToSave)
+        const savedUser = await userService.save(userToSave, req.loggedinUser)
         res.send(savedUser)
     } catch (err) {
         res.status(400).send(`Couldn't save user`)
