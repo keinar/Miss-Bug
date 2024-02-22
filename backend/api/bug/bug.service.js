@@ -38,6 +38,9 @@ async function query(filterBy = {}, sortBy = {}) {
       const startIdx = filterBy.pageIdx * PAGE_SIZE;
       bugsToReturn = bugsToReturn.slice(startIdx, startIdx + PAGE_SIZE);
     }
+    if (filterBy.owner) {
+      bugsToReturn = bugsToReturn.filter(bug => bug.owner === filterBy.owner)
+    }
     return bugsToReturn;
   } catch (err) {
     loggerService.error(err);
@@ -61,7 +64,7 @@ async function remove(bugId, loggedInUser) {
     const idx = bugs.findIndex(bug => bug._id === bugId)
     if (idx === -1) throw `Couldn't find bug with _id ${bugId}`
     const bug = bugs[idx]
-    if (!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw { msg: 'You are not the owner of this bug', code: 403 }
+    if (!loggedInUser.isAdmin && bug.owner?._id !== loggedInUser._id) throw { msg: 'You are not the owner of this bug', code: 403 }
 
     bugs.splice(idx, 1)
     await _saveBugsToFile('./data/bug.json')
@@ -79,7 +82,7 @@ async function save(bugToSave, loggedInUser) {
 
       const bug = bugs[idx];
       bugToSave.createdAt = bug.createdAt;
-      if (!loggedInUser?.isAdmin && bug.owner._id !== loggedInUser?._id) throw { msg: 'You are not the owner of this bug', code: 403 }
+      if (!loggedInUser?.isAdmin && bug.owner?._id !== loggedInUser?._id) throw { msg: 'You are not the owner of this bug', code: 403 }
 
       bugs.splice(idx, 1, { ...bug, ...bugToSave })
     } else {

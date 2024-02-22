@@ -1,11 +1,19 @@
 // User CRUDL API
+import { bugService } from '../bug/bug.service.js';
 import { userService } from './user.service.js';
 
 // List
 export async function getUsers(req, res) {
     try {
         const users = await userService.query()
-        res.send(users)
+
+        const userPromises = users.map(async user => {
+            const bugs = await bugService.query({ owner: user._id })
+            user.bugsCount = bugs.length
+            return user
+        })
+        const updatedUsers = await Promise.all(userPromises)
+        res.send(updatedUsers)
     } catch (err) {
         res.status(400).send(`Couldn't get users`)
     }

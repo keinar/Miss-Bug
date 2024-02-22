@@ -33,14 +33,28 @@ export function AppHeader() {
     // add logout
   }
 
+  const isAdmin = loggedinUser?.isAdmin
+  const isLoggedin = loggedinUser !== null && loggedinUser !== undefined
+
   return (
     <header className="app-header">
       <div className="header-container">
         <UserMsg />
         <nav className="app-nav">
-          <NavLink to="/">Home</NavLink> |<NavLink to="/bug">Bugs</NavLink> |<NavLink to="/user">Users</NavLink> |<NavLink to="/about">About</NavLink>
+          <NavLink to="/">Home</NavLink> |<NavLink to="/bug">Bugs</NavLink> |
+          {isAdmin && (
+            <>
+              <NavLink to="/user"> Users </NavLink> |
+            </>
+          )}
+          {isLoggedin && (
+            <>
+              <NavLink to={`/user/${loggedinUser._id}`}>My Profile</NavLink>|{" "}
+            </>
+          )}
+          <NavLink to="/about">About</NavLink>
           {!loggedinUser && <button onClick={openAuthDialog}>Log In</button>}
-          {isAuthDialogOpen && (
+          {isAuthDialogOpen && !loggedinUser && (
             <dialog open={isAuthDialogOpen} className="auth-dialog">
               <AuthenticationArea loggedinUser={loggedinUser} setLoggedinUser={setLoggedinUser} />
               <button onClick={closeAuthDialog}>Close</button>

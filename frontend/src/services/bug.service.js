@@ -5,7 +5,7 @@ var axios = Axios.create({
 });
 
 const BASE_URL = (process.env.NODE_ENV !== 'development') ?
-  "/api/bug/" : "//localhost:3030/api/bug/";
+  "/api/bug/" : "//localhost:5175/api/bug/";
 
 export const bugService = {
   query,
@@ -43,7 +43,7 @@ async function save(bug) {
 }
 
 function getDefaultFilter() {
-  return { txt: "", severity: "", pageIdx: 0 }
+  return { txt: '', severity: '', labels: [], owner: '', pageIdx: 0 }
 }
 
 function getDefaultSort() {

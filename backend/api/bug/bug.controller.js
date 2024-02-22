@@ -10,7 +10,8 @@ export async function getBugs(req, res) {
             txt: req.query.txt || '',
             severity: +req.query.severity || 0,
             labels: req.query.labels || undefined,
-            pageIdx: req.query.pageIdx || 0
+            pageIdx: req.query.pageIdx || 0,
+            owner: req.query.owner || ''
         }
         const sortBy = {
             sortField: req.query.sortBy || '',
@@ -72,8 +73,8 @@ export async function addBug(req, res) {
 
 // Update
 export async function updateBug(req, res) {
-    const { _id, title, severity, description, labels } = req.body
-    const bugToSave = { _id, title, severity: +severity, description, labels }
+    const { _id, title, severity, description, labels, creator } = req.body
+    const bugToSave = { _id, title, severity: +severity, description, labels, creator }
 
     try {
         const savedBug = await bugService.save(bugToSave, req.loggedinUser)

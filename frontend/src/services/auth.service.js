@@ -20,8 +20,6 @@ export const authService = {
 }
 
 async function login(credentials) {
-    credentials.password = "123456"
-    console.log("credentials: " + JSON.stringify(credentials))
     const { data: user } = await axios.post(BASE_AUTH_URL + 'login', credentials)
     console.log('user', user);
     if (user) {
