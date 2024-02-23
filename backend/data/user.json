@@ -6,7 +6,8 @@
     "password": "123",
     "isAdmin": true,
     "score": 10000,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
   },
   {
     "_id": "u103",
@@ -14,7 +15,8 @@
     "username": "muki",
     "password": "123",
     "score": 10000,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
   },
   {
     "username": "Keinar",
@@ -23,7 +25,8 @@
     "_id": "vJM1k",
     "score": 10000,
     "createdAt": 1708374325662,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
   },
   {
     "username": "Keinar1",
@@ -32,7 +35,8 @@
     "_id": "IkmlW",
     "score": 10000,
     "createdAt": 1708374339697,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
   },
   {
     "username": "test",
@@ -41,7 +45,8 @@
     "_id": "DAmQZ",
     "score": 10000,
     "createdAt": 1708374771703,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
   },
   {
     "_id": "XDaVM",
@@ -50,7 +55,8 @@
     "fullname": "1000",
     "password": "12321312",
     "createdAt": 1708616047808,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
   },
   {
     "_id": "0UO8Z",
@@ -59,6 +65,26 @@
     "fullname": "keinar elkayam",
     "password": "123",
     "createdAt": 1708616063130,
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
+  },
+  {
+    "username": "keinarAviel12",
+    "score": 10000,
+    "fullname": "Keinar Aviel Elkayam12",
+    "password": "keinar1233",
+    "_id": "7BPfx",
+    "createdAt": 1708695382370,
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+    "bugsCount": 0
+  },
+  {
+    "_id": "UsOVd",
+    "username": "muki",
+    "score": 10000,
+    "fullname": "muki 2",
+    "password": "123",
+    "createdAt": 1708695561154,
     "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
   }
 ]

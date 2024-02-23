@@ -31,7 +31,7 @@ export function UserDetails() {
 
   async function loadBugs() {
     const filter = { ...bugService.getDefaultFilter(), owner: userId }
-    const bugs = await bugService.query(bugService.getDefaultSort(), filter)
+    const bugs = await bugService.query(filter)
     setBugs(bugs)
   }
 
@@ -61,7 +61,7 @@ export function UserDetails() {
       <section className="user-bugs">
         {!bugs && <div>Loading...</div>}
         {bugs && bugs.length === 0 && <div>No bugs reported</div>}
-        {bugs && bugs.length > 0 && <BugList bugs={bugs} />}
+        {bugs && bugs.length > 0 && <BugList bugsToDisplay={bugs} />}
       </section>
     </main>
   )

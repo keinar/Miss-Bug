@@ -10,7 +10,9 @@ export const authService = {
     getLoginToken,
     validateToken,
     login,
-    signup
+    signup,
+    getLoggedinUser,
+    hashPassword
 }
 
 
@@ -65,4 +67,18 @@ async function signup({ username, password, fullname }) {
     const saltRounds = 10
     const hash = await bcrypt.hash(password, saltRounds)
     return userService.save({ username, password: hash, fullname })
+}
+
+
+async function getLoggedinUser(req) {
+    console.log(`req.coockies: `, req.cookies)
+    const loggedinUser = await validateToken(req.cookies.loginToken)
+    console.log(`loggedinUser: `, loggedinUser)
+    return loggedinUser
+}
+
+async function hashPassword(password) {
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    return hashedPassword
 }
