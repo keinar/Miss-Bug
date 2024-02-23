@@ -16,7 +16,7 @@ export function UserDetails() {
   useEffect(() => {
     loadUser()
     loadBugs()
-  }, [])
+  }, [userId])
 
   async function loadUser() {
     try {
@@ -30,8 +30,7 @@ export function UserDetails() {
   }
 
   async function loadBugs() {
-    const filter = { ...bugService.getDefaultFilter(), owner: userId }
-    const bugs = await bugService.query(filter)
+    const bugs = await bugService.query({ owner: userId })
     setBugs(bugs)
   }
 
@@ -53,6 +52,9 @@ export function UserDetails() {
               Score: <span>{user.score}</span>
             </p>
           )}
+          <p>
+            Bugs Count: <span>{user.bugsCount}</span>
+          </p>
           {user.isAdmin && <Link to="/user">Back to List</Link>}
         </article>
       </section>

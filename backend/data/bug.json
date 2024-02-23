@@ -137,5 +137,19 @@
       "fullname": "Keinar Elkayam"
     },
     "createdAt": 1708637954179
+  },
+  {
+    "title": "adminov",
+    "severity": 3,
+    "description": "bug admiovi",
+    "labels": [
+      "adminbug"
+    ],
+    "_id": "TwrPI",
+    "owner": {
+      "_id": "u102",
+      "fullname": "Master Adminov"
+    },
+    "createdAt": 1708697186780
   }
 ]

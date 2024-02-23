@@ -39,7 +39,7 @@ async function query(filterBy = {}, sortBy = {}) {
       bugsToReturn = bugsToReturn.slice(startIdx, startIdx + PAGE_SIZE);
     }
     if (filterBy.owner) {
-      bugsToReturn = bugsToReturn.filter(bug => bug.owner === filterBy.owner)
+      bugsToReturn = bugsToReturn.filter(bug => bug.owner?._id === filterBy.owner);
     }
     return bugsToReturn;
   } catch (err) {

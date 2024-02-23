@@ -13,7 +13,6 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
       setBugsToDisplay(prevBugs => prevBugs.filter(bug => bug._id !== bugId))
       showSuccessMsg("Bug removed")
     } catch (err) {
-      // console.log("Error from onRemoveBug ->", err)
       showErrorMsg("Cannot remove bug")
     }
   }
@@ -34,7 +33,6 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
       setBugsToDisplay(prevBugs => prevBugs.map(currBug => (currBug._id === savedBug._id ? savedBug : currBug)))
       showSuccessMsg("Bug updated")
     } catch (err) {
-      // console.log("Error from onEditBug ->", err)
       showErrorMsg("Cannot update bug")
     }
   }
@@ -64,7 +62,9 @@ export function BugList({ bugsToDisplay, setBugsToDisplay }) {
               </button>
             )}
           </div>
-          <Link to={`/bug/${bug._id}`}>Details</Link>
+          <button>
+            <Link to={`/bug/${bug._id}`}>Details</Link>
+          </button>
         </li>
       ))}
     </ul>

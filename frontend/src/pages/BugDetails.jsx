@@ -26,13 +26,27 @@ export function BugDetails() {
 
   if (!bug) return <h1>loadings....</h1>
   return (
-    <div className="bug-details main-layout">
-      <h3>Bug Details 🐛</h3>
-      <h4>{bug.title}</h4>
+    <main className="bug-details main-layout">
+      <h1>Bug Details 🐛</h1>
+      <h2>{bug.title}</h2>
       <p>
-        Severity: <span>{bug.severity}</span>
+        <strong>Severity:</strong> <span>{bug.severity}</span>
       </p>
-      <Link to="/bug">Back to List</Link>
-    </div>
+      <p>
+        <strong>Description:</strong> <span>{bug.description}</span>
+      </p>
+      {bug.labels && (
+        <p>
+          <strong>Labels:</strong> <span>{bug.labels ? bug.labels.map((label, index) => <span key={index}>{"#" + label + " "}</span>) : ""}</span>
+        </p>
+      )}
+      <p>
+        <strong>Created At: </strong>
+        <span>{new Date(bug.createdAt).toLocaleString()}</span>
+      </p>
+      <button className="btn-btl">
+        <Link to="/bug">Back to List</Link>
+      </button>
+    </main>
   )
 }

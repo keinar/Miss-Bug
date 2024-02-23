@@ -8,9 +8,11 @@ export function BugPreview({ bug }) {
       <p>
         Severity: <span>{bug.severity}</span>
       </p>
-      <p>
-        Reporter: <span>{bug.owner?.fullname}</span>
-      </p>
+      {bug.owner?.fullname && (
+        <p>
+          Reporter: <span>{bug.owner?.fullname}</span>
+        </p>
+      )}
       {bug.labels ? bug.labels.map((label, index) => <span key={index}>{"#" + label + " "}</span>) : ""}
     </article>
   )
