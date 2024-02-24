@@ -40,8 +40,8 @@ export function UserDetails() {
     <main className="user-details main-layout">
       <h2>My Profile</h2>
       <section className="user-profile">
+        {console.log("user:", user)}
         <img src={user.imgUrl} alt="user" width={200} />
-
         <article>
           <h3>{user.fullname}</h3>
           <p>

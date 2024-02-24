@@ -7,7 +7,7 @@ export const utilService = {
     download,
     httpGet,
     makeId,
-    saveUsersToFile
+    saveToFile
 }
 
 
@@ -64,14 +64,11 @@ function makeId(length = 5) {
     return text
 }
 
-function saveUsersToFile() {
+function saveToFile(list, path) {
     return new Promise((resolve, reject) => {
-
-        const usersStr = JSON.stringify(users, null, 2)
-        fs.writeFile('data/user.json', usersStr, (err) => {
-            if (err) {
-                return console.log(err);
-            }
+        const data = JSON.stringify(list, null, 2)
+        fs.writeFile(path, data, (err) => {
+            if (err) return reject(err)
             resolve()
         })
     })

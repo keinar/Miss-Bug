@@ -1,19 +1,18 @@
-import fs from 'fs'
-import { utilService } from '../../services/util.service.js'
-import { loggerService } from '../../services/logger.service.js'
-
-const TAG = "user.service"
-const users = utilService.readJsonFile('data/user.json')
+import { loggerService } from "../../services/logger.service.js";
+import { utilService } from "../../services/util.service.js";
+import { authService } from "../auth/auth.service.js";
+import { bugService } from "../bug/bug.service.js";
 
 export const userService = {
     query,
     getById,
+    getByUsername,
     remove,
-    save,
-    getByUsername
+    save
 }
 
-
+const TAG = "user.service"
+var users = utilService.readJsonFile('./data/user.json')
 
 async function query() {
 
@@ -28,57 +27,84 @@ async function query() {
 async function getById(userId) {
     try {
         const user = users.find(user => user._id === userId)
-        if (!user) throw `User not found by userId : ${userId}`
         return user
     } catch (err) {
-        loggerService.error('userService[getById] : ', err)
-        throw err
+        loggerService.error(TAG, `Had problems getting user`, err)
+        throw `Had problems getting user`
     }
 }
 
 async function getByUsername(username) {
-    const user = users.find(user => user.username === username)
-    return user
+    try {
+        const user = users.find(user => user.username === username)
+        return user
+    } catch (err) {
+        loggerService.error(TAG, `Had problems getting user ${username}`, err)
+        throw `Had problems getting user ${username}`
+    }
 }
 
 async function remove(userId) {
-    try {
-        const idx = users.findIndex(user => user._id === userId)
-        if (idx === -1) throw `Couldn't find user with _id ${causerIdrId}`
-
-        users.splice(idx, 1)
-        await _saveUsersToFile()
-    } catch (err) {
-        loggerService.error('userService[remove] : ', err)
-        throw err
+    const idx = users.findIndex(user => user._id === userId)
+    if (idx === -1) {
+        throw 'Bad Id'
     }
+
+    const sort = null
+    const filterBy = { owner: userId }
+    const bugs = await bugService.query(sort, filterBy)
+
+    if (bugs.length > 0) {
+        throw `User cannot removed`
+    }
+
+
+    users.splice(idx, 1)
+
+    try {
+        await utilService.saveToFile(users, './data/user.json')
+    } catch (err) {
+        loggerService.error(TAG, `Had problems removing user ${userId}`, err)
+        throw `Had problems removing user ${userId}`
+    }
+
+    return `User ${userId} removed`
 }
 
-async function save(user) {
+async function save(userToSave, loggedinUser) {
     try {
-        // Only handles user ADD for now
-        user._id = utilService.makeId()
-        user.score = 10000
-        user.createdAt = Date.now()
-        if (!user.imgUrl) user.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
-        users.push(user)
-        await _saveUsersToFile()
-        return user
-    } catch (err) {
-        loggerService.error('userService[save] : ', err)
-        throw err
-    }
-}
-
-function _saveUsersToFile() {
-    return new Promise((resolve, reject) => {
-
-        const usersStr = JSON.stringify(users, null, 2)
-        fs.writeFile('data/user.json', usersStr, (err) => {
-            if (err) {
-                return console.log(err);
+        if (userToSave._id) {
+            const idx = users.findIndex(user => user._id === userToSave._id)
+            if (idx === -1) {
+                throw 'Bad Id'
             }
-            resolve()
-        })
-    })
+
+            if (!loggedinUser.isAdmin && userToSave._id !== loggedinUser._id) {
+                throw { msg: 'Not your user', code: 403 }
+            }
+
+            userToSave.password = await authService.hashPassword(userToSave.password)
+
+            users.splice(idx, 1, userToSave)
+        } else {
+            userToSave._id = utilService.makeId()
+            userToSave.createdAt = Date.now()
+            userToSave.isAdmin = false
+            userToSave.password = await authService.hashPassword(userToSave.password)
+            userToSave.score = Math.floor(Math.random() * 1000) + 1
+
+            if (!userToSave.imgUrl) {
+                userToSave.imgUrl = "https://res.cloudinary.com/dn4zdrszh/image/upload/v1708020687/missing-avatar_sowwel.jpg"
+            }
+
+            users.push(userToSave)
+        }
+
+        await utilService.saveToFile(users, './data/user.json')
+    } catch (err) {
+        loggerService.error(TAG, `Had problems saving user ${userToSave._id}`, err)
+        throw `Had problems saving user ${userToSave._id}`
+    }
+
+    return userToSave
 }

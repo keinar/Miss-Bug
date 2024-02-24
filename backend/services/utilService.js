@@ -6,7 +6,8 @@ export const utilService = {
     readJsonFile,
     download,
     httpGet,
-    makeId
+    makeId,
+    saveToFile
 }
 
 function readJsonFile(path) {
@@ -60,4 +61,14 @@ function makeId(length = 5) {
         text += possible.charAt(Math.floor(Math.random() * possible.length))
     }
     return text
+}
+
+function saveToFile(list, path) {
+    return new Promise((resolve, reject) => {
+        const data = JSON.stringify(list, null, 2)
+        fs.writeFile(path, data, (err) => {
+            if (err) return reject(err)
+            resolve()
+        })
+    })
 }
