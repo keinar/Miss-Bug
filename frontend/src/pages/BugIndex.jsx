@@ -7,6 +7,8 @@ import BugFilter from "../cmps/BugFilter.jsx"
 import { AddBugForm } from "../cmps/AddBugForm.jsx"
 import BugSorting from "../cmps/BugSorting.jsx"
 import Pagination from "../assets/style/cmps/Pagination.jsx"
+import jsPDF from "jspdf"
+import DownloadPDF from "../cmps/downloadPDF.jsx"
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
@@ -60,6 +62,7 @@ export function BugIndex() {
             <button onClick={onCloseDialog}>Close</button>
           </dialog>
         )}
+        <DownloadPDF bugsToDisplay={bugsToDisplay} />
         <BugList bugsToDisplay={bugsToDisplay} setBugsToDisplay={setBugsToDisplay} />
       </section>
       <Pagination filterBy={filterBy} setFilterBy={setFilterBy} bugsToDisplay={bugsToDisplay} />
