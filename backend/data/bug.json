@@ -1,55 +1,9 @@
 [
   {
-    "_id": "WJjqm",
-    "title": "new title 3",
-    "severity": 1,
-    "description": "new description",
-    "createdAt": 1707767208452
-  },
-  {
-    "title": "new title 3",
-    "severity": 1,
-    "description": "new description",
-    "_id": "7BHCy",
-    "createdAt": 1707767237983
-  },
-  {
-    "title": "new title 3",
-    "severity": 1,
-    "description": "new description",
-    "labels": [
-      "critical",
-      "need-CR",
-      "dev-branch"
-    ],
-    "_id": "DgNlL",
-    "createdAt": 1707767360704
-  },
-  {
-    "_id": "iybfu",
-    "title": "pag bug",
-    "severity": 2,
-    "description": "pagination does not work",
-    "createdAt": 1708198682831
-  },
-  {
-    "_id": "lWmpa",
-    "title": "title",
-    "severity": 2,
-    "description": "desc",
-    "labels": [
-      "label"
-    ],
-    "createdAt": 1708286413562
-  },
-  {
     "title": "sdfdsf",
     "severity": 4,
     "description": "sdfsdf",
-    "labels": [
-      "sdfsdf"
-    ],
-    "_id": "y39AB",
+    "labels": ["sdfsdf"],
     "owner": {
       "_id": "u103",
       "fullname": "Muki G"
@@ -60,7 +14,6 @@
     "title": "new bug ohhh",
     "severity": 6,
     "description": "this is description",
-    "_id": "unvXV",
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
@@ -71,7 +24,6 @@
     "title": "new bug ohhh",
     "severity": 6,
     "description": "this is description",
-    "_id": "znaB2",
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
@@ -82,10 +34,7 @@
     "title": "dfgfd",
     "severity": 3,
     "description": "fdgdf",
-    "labels": [
-      "dfg"
-    ],
-    "_id": "3BmWE",
+    "labels": ["dfg"],
     "owner": {
       "_id": "u102",
       "fullname": "Master Adminov"
@@ -96,10 +45,7 @@
     "title": "asd",
     "severity": 3,
     "description": "asd",
-    "labels": [
-      "asd"
-    ],
-    "_id": "3n35U",
+    "labels": ["asd"],
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
@@ -110,7 +56,6 @@
     "title": "new bug ohhh",
     "severity": 6,
     "description": "this is description",
-    "_id": "DGXCL",
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
@@ -121,10 +66,7 @@
     "title": "asd",
     "severity": 3,
     "description": "asd",
-    "labels": [
-      "asd"
-    ],
-    "_id": "XTmy5",
+    "labels": ["asd"],
     "owner": {
       "_id": "vJM1k",
       "fullname": "Keinar Elkayam"
@@ -135,10 +77,7 @@
     "title": "adminov",
     "severity": 3,
     "description": "bug admiovi",
-    "labels": [
-      "adminbug"
-    ],
-    "_id": "TwrPI",
+    "labels": ["adminbug"],
     "owner": {
       "_id": "u102",
       "fullname": "Master Adminov"

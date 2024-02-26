@@ -2,6 +2,11 @@ import { loggerService } from "../../services/logger.service.js";
 import { utilService } from "../../services/util.service.js";
 import { authService } from "../auth/auth.service.js";
 import { bugService } from "../bug/bug.service.js";
+import { dbService } from "../../services/db.service.js";
+import mongodb from 'mongodb'
+const { ObjectId } = mongodb
+const userCollection = 'user'
+const bugCollection = 'bug'
 
 export const userService = {
     query,
@@ -12,11 +17,12 @@ export const userService = {
 }
 
 const TAG = "user.service"
-var users = utilService.readJsonFile('./data/user.json')
 
 async function query() {
 
     try {
+        const collection = await dbService.getCollection(userCollection)
+        const users = await collection.find().toArray()
         return users
     } catch (err) {
         loggerService.error(TAG, `Had problems getting users`, err)
@@ -26,7 +32,10 @@ async function query() {
 
 async function getById(userId) {
     try {
-        const user = users.find(user => user._id === userId)
+        const collection = await dbService.getCollection(userCollection)
+        const user = await collection.findOne({ _id: new ObjectId(userId) })
+        delete user.password
+
         return user
     } catch (err) {
         loggerService.error(TAG, `Had problems getting user`, err)
@@ -36,7 +45,11 @@ async function getById(userId) {
 
 async function getByUsername(username) {
     try {
-        const user = users.find(user => user.username === username)
+        const collection = await dbService.getCollection(userCollection)
+        const user = await collection.findOne({ username: username })
+        if (user) {
+            delete user.password
+        }
         return user
     } catch (err) {
         loggerService.error(TAG, `Had problems getting user ${username}`, err)
@@ -45,24 +58,21 @@ async function getByUsername(username) {
 }
 
 async function remove(userId) {
-    const idx = users.findIndex(user => user._id === userId)
-    if (idx === -1) {
-        throw 'Bad Id'
-    }
-
-    const sort = null
-    const filterBy = { owner: userId }
-    const bugs = await bugService.query(sort, filterBy)
-
-    if (bugs.length > 0) {
-        throw `User cannot removed`
-    }
-
-
-    users.splice(idx, 1)
-
     try {
-        await utilService.saveToFile(users, './data/user.json')
+        const collection = await dbService.getCollection(userCollection)
+        await collection.deleteOne({ _id: ObjectID(userId) })
+
+        // Find user by ID
+        const user = await userCollection.findOne({ _id: new ObjectId(userId) });
+        if (!user) {
+            throw new Error('Bad Id');
+        }
+
+        // Check for bugs owned by the user
+        const bugs = await bugCollection.find({ owner: new ObjectId(userId) }).toArray();
+        if (bugs.length > 0) {
+            throw new Error('User cannot be removed');
+        }
     } catch (err) {
         loggerService.error(TAG, `Had problems removing user ${userId}`, err)
         throw `Had problems removing user ${userId}`
@@ -73,21 +83,15 @@ async function remove(userId) {
 
 async function save(userToSave, loggedinUser) {
     try {
+        const collection = await dbService.getCollection(userCollection);
         if (userToSave._id) {
-            const idx = users.findIndex(user => user._id === userToSave._id)
-            if (idx === -1) {
-                throw 'Bad Id'
-            }
-
-            if (!loggedinUser.isAdmin && userToSave._id !== loggedinUser._id) {
+            const userId = ObjectId(userToSave._id)
+            if (!loggedinUser.isAdmin && userId.toString() !== loggedinUser._id.toString()) {
                 throw { msg: 'Not your user', code: 403 }
             }
-
-            userToSave.password = await authService.hashPassword(userToSave.password)
-
-            users.splice(idx, 1, userToSave)
-        } else {
-            userToSave._id = utilService.makeId()
+            userToSave._id = userId
+        }
+        if (!userToSave._id) {
             userToSave.createdAt = Date.now()
             userToSave.isAdmin = false
             userToSave.password = await authService.hashPassword(userToSave.password)
@@ -96,15 +100,19 @@ async function save(userToSave, loggedinUser) {
             if (!userToSave.imgUrl) {
                 userToSave.imgUrl = "https://res.cloudinary.com/dn4zdrszh/image/upload/v1708020687/missing-avatar_sowwel.jpg"
             }
-
-            users.push(userToSave)
         }
 
-        await utilService.saveToFile(users, './data/user.json')
+        let result;
+        if (userToSave._id) {
+            result = await collection.updateOne({ _id: userToSave._id }, { $set: userToSave }, { upsert: true });
+        } else {
+            result = await collection.insertOne(userToSave);
+            userToSave._id = result.insertedId;
+        }
     } catch (err) {
         loggerService.error(TAG, `Had problems saving user ${userToSave._id}`, err)
         throw `Had problems saving user ${userToSave._id}`
     }
 
-    return userToSave
+    return userToSave;
 }

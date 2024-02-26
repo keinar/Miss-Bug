@@ -1,22 +1,25 @@
 import express from "express";
 import cors from "cors";
+import path from 'path';
 import cookieParser from 'cookie-parser'
 
-
-
-
-const corsOptions = {
-  origin: ["http://127.0.0.1:5173", "http://localhost:5173"],
-  credentials: true,
-};
 // ======================
 // configurations
 // ======================
 const app = express();
-app.use(cors(corsOptions));
-app.use(cookieParser())
 app.use(express.static("public"));
 app.use(express.json());
+app.use(cookieParser())
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve("public")));
+} else {
+  const corsOptions = {
+    origin: ["http://127.0.0.1:5173", "http://localhost:5173"],
+    credentials: true,
+  };
+  app.use(cors(corsOptions));
+}
 
 // Routes
 import { bugRoutes } from "./api/bug/bug.routes.js";
@@ -43,8 +46,8 @@ import { loggerService } from "./services/logger.service.js";
 import dotenv from 'dotenv'
 
 dotenv.config()
-const port = process.env.PORT || 5175;
-app.listen(port, () => {
-  console.log(`Server ready at port ${port}`)
-  loggerService.info("Up and running on port", port);
+const PORT = process.env.PORT || 5175;
+app.listen(PORT, () => {
+  console.log(`Server ready at port ${PORT}`)
+  loggerService.info("Up and running on port", PORT);
 });
