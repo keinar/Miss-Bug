@@ -14,57 +14,8 @@
     "fullname": "Muki G",
     "username": "muki",
     "password": "123",
+    "isAdmin": false,
     "score": 10000,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
-  },
-  {
-    "username": "Keinar",
-    "password": "$2b$10$CuiTTVETrDUa4BzWABTLx.3e4QCUaH/vsR7ZDCI5JSkfZB4aIGahe",
-    "fullname": "Keinar Elkayam",
-    "_id": "vJM1k",
-    "score": 10000,
-    "createdAt": 1708374325662,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
-  },
-  {
-    "username": "Keinar1",
-    "password": "$2b$10$/F47Iwe7I4NFD.A83aDekOg9RAj6HLqtvNKJ.TIzB35Yu5b36s76S",
-    "fullname": "Keinar Elkayam2",
-    "_id": "IkmlW",
-    "score": 10000,
-    "createdAt": 1708374339697,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
-  },
-  {
-    "username": "test",
-    "password": "$2b$10$b4xcb0T1aHI9dxmBm1Do8.72GNKymlIM4ryPm61sH7qRTd7H9Kye2",
-    "fullname": "test",
-    "_id": "DAmQZ",
-    "score": 10000,
-    "createdAt": 1708374771703,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
-  },
-  {
-    "_id": "XDaVM",
-    "username": "test",
-    "score": 10000,
-    "fullname": "1000",
-    "password": "12321312",
-    "createdAt": 1708616047808,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
-  },
-  {
-    "_id": "0UO8Z",
-    "username": "keinar",
-    "score": 10000,
-    "fullname": "keinar elkayam",
-    "password": "123",
-    "createdAt": 1708616063130,
     "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
     "bugsCount": 0
   },
@@ -73,18 +24,10 @@
     "score": 10000,
     "fullname": "Keinar Aviel Elkayam12",
     "password": "keinar1233",
+    "isAdmin": false,
     "_id": "7BPfx",
     "createdAt": 1708695382370,
     "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
     "bugsCount": 0
-  },
-  {
-    "_id": "UsOVd",
-    "username": "muki",
-    "score": 10000,
-    "fullname": "muki 2",
-    "password": "123",
-    "createdAt": 1708695561154,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
   }
 ]
