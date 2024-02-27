@@ -2,7 +2,8 @@ import fs from 'fs'
 
 import { loggerService } from '../../services/logger.service.js'
 import { utilService } from '../../services/utilService.js'
-
+import { dbService } from '../../services/db.service.js'
+import { ObjectId } from 'mongodb'
 export const bugService = {
   query,
   getById,
@@ -10,38 +11,23 @@ export const bugService = {
   save,
 }
 
-var bugs = utilService.readJsonFile('./data/bug.json')
+// var bugs = utilService.readJsonFile('./data/bug.json')
+const collectionName = 'bug'
 const PAGE_SIZE = 6
 
 async function query(filterBy = {}, sortBy = {}) {
   try {
-    let bugsToReturn = [...bugs];
-    if (filterBy.txt) {
-      const regExp = new RegExp(filterBy.txt, 'i');
-      bugsToReturn = bugsToReturn.filter(bug => (bug.title || bug.description) && regExp.test(bug.title || bug.description));
-    }
-    if (filterBy.severity) {
-      bugsToReturn = bugsToReturn.filter(bug => bug.severity === filterBy.severity);
-    }
-    if (filterBy.labels) {
-      bugsToReturn = bugsToReturn
-        .filter(bug => bug.labels?.some(label => filterBy.labels.includes(label)))
-    }
-    if (sortBy.sortField) {
-      bugsToReturn.sort((a, b) => {
-        const aValue = a[sortBy.sortField];
-        const bValue = b[sortBy.sortField];
-        return (aValue > bValue ? 1 : -1) * sortBy.sortDir;
-      });
-    }
-    if (filterBy.pageIdx) {
+    const criteria = _buildCriteria(filterBy, sortBy);
+    const collection = await dbService.getCollection(collectionName);
+    const bugCursor = collection.find(criteria.filter).sort(criteria.sort);
+
+    if (filterBy.pageIdx !== undefined) {
       const startIdx = filterBy.pageIdx * PAGE_SIZE;
-      bugsToReturn = bugsToReturn.slice(startIdx, startIdx + PAGE_SIZE);
+      bugCursor.skip(startIdx).limit(PAGE_SIZE);
     }
-    if (filterBy.owner) {
-      bugsToReturn = bugsToReturn.filter(bug => bug.owner?._id === filterBy.owner);
-    }
-    return bugsToReturn;
+
+    const bugs = await bugCursor.toArray();
+    return bugs;
   } catch (err) {
     loggerService.error(err);
     throw err;
@@ -50,61 +36,80 @@ async function query(filterBy = {}, sortBy = {}) {
 
 async function getById(bugId) {
   try {
-    var bug = bugs.find(bug => bug._id === bugId)
-    if (!bug) throw `Couldn't find bug with _id ${bugId}`
-    return bug
+    const collection = await dbService.getCollection(collectionName);
+    const bug = await collection.findOne({ _id: new ObjectId(bugId) });
+    if (!bug) throw `Couldn't find bug with _id ${bugId}`;
+    return bug;
   } catch (err) {
-    loggerService.error(err)
-    throw (err)
+    loggerService.error(err);
+    throw err;
   }
 }
 
 async function remove(bugId, loggedInUser) {
   try {
-    const idx = bugs.findIndex(bug => bug._id === bugId)
-    if (idx === -1) throw `Couldn't find bug with _id ${bugId}`
-    const bug = bugs[idx]
-    if (!loggedInUser.isAdmin && bug.owner?._id !== loggedInUser._id) throw { msg: 'You are not the owner of this bug', code: 403 }
+    const collection = await dbService.getCollection(collectionName);
+    const bug = await collection.findOne({ _id: new ObjectId(bugId) });
+    if (!bug) throw `Couldn't find bug with _id ${bugId}`;
+    if (!loggedInUser.isAdmin && bug.owner?._id !== loggedInUser._id) throw { msg: 'You are not the owner of this bug', code: 403 };
 
-    bugs.splice(idx, 1)
-    await _saveBugsToFile('./data/bug.json')
+    await collection.deleteOne({ _id: new ObjectId(bugId) });
   } catch (err) {
-    loggerService.error(err)
-    throw err
+    loggerService.error(err);
+    throw err;
   }
 }
 
 async function save(bugToSave, loggedInUser) {
   try {
+    const collection = await dbService.getCollection(collectionName);
     if (bugToSave._id) {
-      const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
-      if (idx === -1) throw `Couldn't find bug with _id ${bugToSave._id}`
-
-      const bug = bugs[idx];
-      bugToSave.createdAt = bug.createdAt;
-      if (!loggedInUser?.isAdmin && bug.owner?._id !== loggedInUser?._id) throw { msg: 'You are not the owner of this bug', code: 403 }
-
-      bugs.splice(idx, 1, { ...bug, ...bugToSave })
+      const _id = new ObjectId(bugToSave._id);
+      delete bugToSave._id; // MongoDB uses _id as ObjectId, not a string.
+      const result = await collection.updateOne({ _id }, { $set: bugToSave });
+      if (result.matchedCount === 0) throw `Couldn't find bug with _id ${_id}`;
     } else {
-      bugToSave._id = utilService.makeId();
-      bugToSave.owner = { _id: loggedInUser._id, fullname: loggedInUser.fullname }
       bugToSave.createdAt = Date.now();
-      bugs.push(bugToSave)
+      bugToSave.owner = { _id: loggedInUser._id, fullname: loggedInUser.fullname };
+      await collection.insertOne(bugToSave);
     }
-    await _saveBugsToFile('./data/bug.json')
-    return bugToSave
+    return bugToSave;
   } catch (err) {
-    loggerService.error(err)
-    throw err
+    loggerService.error(err);
+    throw err;
   }
 }
 
-function _saveBugsToFile(path) {
-  return new Promise((resolve, reject) => {
-    const data = JSON.stringify(bugs, null, 2)
-    fs.writeFile(path, data, (err) => {
-      if (err) return reject(err)
-      resolve()
-    })
-  })
+function _buildCriteria(filterBy = {}, sortBy = {}) {
+  const queryOptions = {
+    filter: {},
+    sort: {}
+  };
+
+  // Building filter criteria
+  if (filterBy.txt) {
+    queryOptions.filter.$or = [
+      { title: { $regex: filterBy.txt, $options: 'i' } },
+      { description: { $regex: filterBy.txt, $options: 'i' } }
+    ];
+  }
+
+  if (filterBy.severity) {
+    queryOptions.filter.severity = filterBy.severity;
+  }
+
+  if (filterBy.labels && filterBy.labels.length) {
+    queryOptions.filter.labels = { $in: [filterBy.labels] };
+  }
+
+  if (filterBy.owner) {
+    queryOptions.filter['owner._id'] = filterBy.owner;
+  }
+
+  // Building sort criteria
+  if (sortBy && sortBy.sortField) {
+    queryOptions.sort[sortBy.sortField] = sortBy.sortDir === 'asc' ? 1 : -1;
+  }
+
+  return queryOptions;
 }

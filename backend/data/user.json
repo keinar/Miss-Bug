@@ -6,8 +6,7 @@
     "password": "123",
     "isAdmin": true,
     "score": 10000,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
   },
   {
     "_id": "u103",
@@ -16,8 +15,7 @@
     "password": "123",
     "isAdmin": false,
     "score": 10000,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
   },
   {
     "username": "keinarAviel12",
@@ -27,7 +25,6 @@
     "isAdmin": false,
     "_id": "7BPfx",
     "createdAt": 1708695382370,
-    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
-    "bugsCount": 0
+    "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
   }
 ]

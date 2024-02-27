@@ -40,7 +40,6 @@ export function UserDetails() {
     <main className="user-details main-layout">
       <h2>My Profile</h2>
       <section className="user-profile">
-        {console.log("user:", user)}
         <img src={user.imgUrl} alt="user" width={200} />
         <article>
           <h3>{user.fullname}</h3>
@@ -53,7 +52,7 @@ export function UserDetails() {
             </p>
           )}
           <p>
-            Bugs Count: <span>{user.bugsCount}</span>
+            Bugs Count: <span>{bugs.length}</span>
           </p>
           {user.isAdmin && <Link to="/user">Back to List</Link>}
         </article>
