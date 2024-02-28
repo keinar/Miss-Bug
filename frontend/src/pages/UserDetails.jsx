@@ -34,7 +34,7 @@ export function UserDetails() {
     setBugs(bugs)
   }
 
-  if (!user) return <h1>loadings....</h1>
+  if (!user || !bugs) return <h1>loadings....</h1>
 
   return (
     <main className="user-details main-layout">
@@ -52,7 +52,7 @@ export function UserDetails() {
             </p>
           )}
           <p>
-            Bugs Count: <span>{bugs.length}</span>
+            Bugs Count: <span>{user.bugsCount}</span>
           </p>
           {user.isAdmin && <Link to="/user">Back to List</Link>}
         </article>

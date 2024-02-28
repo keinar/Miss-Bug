@@ -24,7 +24,7 @@ export const userService = {
 
 async function getUsers() {
     try {
-        const { data: users, status } = await axios.get(BASE_USER_URL)
+        const { data: users } = await axios.get(BASE_USER_URL)
         return users
     } catch (err) {
         console.log("Had problems getting users")
@@ -34,7 +34,7 @@ async function getUsers() {
 
 async function getById(userId) {
     try {
-        const { data: user, status } = await axios.get(BASE_USER_URL + userId)
+        const { data: user } = await axios.get(BASE_USER_URL + userId)
         return user
     } catch (err) {
         console.log(`Had problems getting user $userId}`)

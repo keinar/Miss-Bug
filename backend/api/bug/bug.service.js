@@ -21,12 +21,14 @@ async function query(filterBy = {}, sortBy = {}) {
     const collection = await dbService.getCollection(collectionName);
     const bugCursor = collection.find(criteria.filter).sort(criteria.sort);
 
-    if (filterBy.pageIdx !== undefined) {
-      const startIdx = filterBy.pageIdx * PAGE_SIZE;
-      bugCursor.skip(startIdx).limit(PAGE_SIZE);
-    }
+    // if (filterBy.pageIdx !== undefined) {
+    //   const startIdx = filterBy.pageIdx * PAGE_SIZE;
+    //   bugCursor.skip(startIdx).limit(PAGE_SIZE);
+    // }
 
     const bugs = await bugCursor.toArray();
+    console.log("criteria: ", criteria);
+    console.log('bugs: ', bugs);
     return bugs;
   } catch (err) {
     loggerService.error(err);
@@ -103,7 +105,7 @@ function _buildCriteria(filterBy = {}, sortBy = {}) {
   }
 
   if (filterBy.owner) {
-    queryOptions.filter['owner._id'] = filterBy.owner;
+    queryOptions.filter['owner.id'] = filterBy.owner;
   }
 
   // Building sort criteria

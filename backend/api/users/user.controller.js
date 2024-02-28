@@ -12,7 +12,7 @@ export async function getUsers(req, res) {
             return user
         })
         const updatedUsers = await Promise.all(userPromises)
-        console.log(updatedUsers)
+        return res.send(updatedUsers)
     } catch (err) {
         res.status(400).send(`Couldn't get users`)
     }
@@ -23,7 +23,8 @@ export async function getUser(req, res) {
     const { userId } = req.params
     try {
         const user = await userService.getById(userId)
-
+        const bugs = await bugService.query({ owner: (userId) })
+        user.bugsCount = bugs.length
         res.send(user)
     } catch (err) {
         res.status(400).send(`Couldn't get user`)
