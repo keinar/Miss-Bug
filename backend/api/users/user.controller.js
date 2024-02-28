@@ -6,14 +6,13 @@ import { userService } from './user.service.js';
 export async function getUsers(req, res) {
     try {
         const users = await userService.query()
-
         const userPromises = users.map(async user => {
             const bugs = await bugService.query({ owner: user._id })
             user.bugsCount = bugs.length
             return user
         })
         const updatedUsers = await Promise.all(userPromises)
-        res.send(updatedUsers)
+        console.log(updatedUsers)
     } catch (err) {
         res.status(400).send(`Couldn't get users`)
     }
@@ -24,6 +23,7 @@ export async function getUser(req, res) {
     const { userId } = req.params
     try {
         const user = await userService.getById(userId)
+
         res.send(user)
     } catch (err) {
         res.status(400).send(`Couldn't get user`)

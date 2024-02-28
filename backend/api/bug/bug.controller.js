@@ -73,8 +73,8 @@ export async function addBug(req, res) {
 
 // Update
 export async function updateBug(req, res) {
-    const { _id, title, severity, description, labels, creator } = req.body
-    const bugToSave = { _id, title, severity: +severity, description, labels, creator }
+    const { _id, title, severity, description, labels, owner } = req.body
+    const bugToSave = { _id, title, severity: +severity, description, labels, owner }
 
     try {
         const savedBug = await bugService.save(bugToSave, req.loggedinUser)
