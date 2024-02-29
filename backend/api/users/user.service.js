@@ -60,19 +60,8 @@ async function getByUsername(username) {
 async function remove(userId) {
     try {
         const collection = await dbService.getCollection(userCollection)
-        await collection.deleteOne({ _id: ObjectID(userId) })
-
+        await collection.deleteOne({ _id: new ObjectId(userId) })
         // Find user by ID
-        const user = await userCollection.findOne({ _id: new ObjectId(userId) });
-        if (!user) {
-            throw new Error('Bad Id');
-        }
-
-        // Check for bugs owned by the user
-        const bugs = await bugCollection.find({ owner: new ObjectId(userId) }).toArray();
-        if (bugs.length > 0) {
-            throw new Error('User cannot be removed');
-        }
     } catch (err) {
         loggerService.error(TAG, `Had problems removing user ${userId}`, err)
         throw `Had problems removing user ${userId}`
@@ -85,7 +74,7 @@ async function save(userToSave, loggedinUser) {
     try {
         const collection = await dbService.getCollection(userCollection);
         if (userToSave._id) {
-            const userId = ObjectId(userToSave._id)
+            const userId = new ObjectId(userToSave._id)
             if (!loggedinUser.isAdmin && userId.toString() !== loggedinUser._id.toString()) {
                 throw { msg: 'Not your user', code: 403 }
             }
